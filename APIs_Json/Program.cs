@@ -21,6 +21,7 @@ while (theTruth)
         if (response == "yes")
         {
             Console.WriteLine($"{quote.NorrisQuote()}");
+            theTruth = false;
         }
         if (response == "no")
         {
