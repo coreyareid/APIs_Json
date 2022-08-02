@@ -12,7 +12,8 @@ namespace APIs_Json
 
         public void WeatherApp()
         {
-            var key = "cdf930396eb2cfe3b3756e87cc541178";
+            string keyAPI = File.ReadAllText("appsettings.json");
+            string key = JObject.Parse(keyAPI).GetValue("weatherKey").ToString();
 
             Console.WriteLine("\nEnter city name for weather information:");
             var city = Console.ReadLine();
@@ -20,9 +21,11 @@ namespace APIs_Json
             var weatherURL = $"https://api.openweathermap.org/data/2.5/weather?q=" +
                 $"{city}&appid={key}&units=imperial";
             var response = _client.GetStringAsync(weatherURL).Result;
-            var parsing = JObject.Parse(response).GetValue("main").ToString();
+            double parsing = double.Parse(JObject.Parse(response)["main"]["temp"].ToString());
+            double theFeels = double.Parse(JObject.Parse(response)["main"]["feels_like"].ToString());
 
-            Console.WriteLine(parsing.Replace("{", "").Replace("}", ""));
+            Console.WriteLine($"Temperature is: {parsing}");
+            Console.WriteLine($"What it feels like: {theFeels}");
         }
     }
 }
